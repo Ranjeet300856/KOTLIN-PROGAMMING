@@ -28,7 +28,13 @@ suspend fun main()
         }
 
         println("User Profile Result : ${userProfile.await()}")
+        
+        try {
+            println("User Recom. Result  : ${userOrders.await()}")
+        } catch(e: Exception) {
+            println(e.message)
+        }
+
         println("User Recom. Result  : ${userRecom.await()}")
-        println("User Orders Result  : ${userOrders.await()}")
     }
 }

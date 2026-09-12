@@ -11,6 +11,11 @@ package org.SupervisorScope
 import kotlinx.coroutines.*
 suspend fun main() 
 {
+    val handler = CoroutineExceptionHandler {
+        _, exception ->
+        println(exception.message)
+    }
+
     supervisorScope {
         val databaseSync = launch {
             println("Database Sync Started")
@@ -18,7 +23,7 @@ suspend fun main()
             println("Database Sync Completed")
         }
 
-        val remoteAPISync = launch {
+        val remoteAPISync = launch(handler) {
             println("Remote API Sync Started")
             delay(1000)
             throw Exception("Remote API Sync Failed")
