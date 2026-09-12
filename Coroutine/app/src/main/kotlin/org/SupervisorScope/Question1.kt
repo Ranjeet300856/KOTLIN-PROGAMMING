@@ -9,6 +9,11 @@ package org.SupervisorScope
 import kotlinx.coroutines.*
 suspend fun main()
 {
+    val handler = CoroutineExceptionHandler {
+        _, exception ->
+        println(exception.message)
+    }
+
     supervisorScope {
         launch {
             println("User Profile Loading Started")
@@ -22,7 +27,7 @@ suspend fun main()
             println("Posts Loading Completed")
         }
 
-        launch {
+        launch(handler) {
             println("Notifications Loading Started")
             throw Exception("Notifications Loading Failed")
         }
